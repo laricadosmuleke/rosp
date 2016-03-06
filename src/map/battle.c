@@ -3502,10 +3502,10 @@ static int battle_calc_attack_skill_ratio(struct Damage wd, struct block_list *s
 				skillratio += 35 * skill_lv;
 			break;
 		case AM_DEMONSTRATION:
-			skillratio += 20 * skill_lv;
+			skillratio += 100 * skill_lv; // Damage increased
 			break;
 		case AM_ACIDTERROR:
-			skillratio += 40 * skill_lv;
+			skillratio += 200 * skill_lv; // Damage increased
 			break;
 		case MO_FINGEROFFENSIVE:
 			skillratio += 50 * skill_lv;
@@ -4365,7 +4365,7 @@ struct Damage battle_attack_sc_bonus(struct Damage wd, struct block_list *src, s
 				case ASC_BREAKER:
 				case ASC_METEORASSAULT:
 #else
-				case AS_GRIMTOOTH:
+				//case AS_GRIMTOOTH:
 				case AS_VENOMKNIFE:
 #endif
 					break; // skills above have no effect with edp

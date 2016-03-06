@@ -326,7 +326,7 @@
 // Rogue
 210,0,0,0,-1,0,0,10,0,no,0,0,0,weapon,0,0x0,		RG_SNATCHER,Gank
 211,1,6,1,0,0x1,0,10,1,no,0,0,0,weapon,0,0x0,	RG_STEALCOIN,Mug
-212,-1,6,1,-1,0x40,0,10,1,no,0,0,0,weapon,0,0x4,	RG_BACKSTAP,Back Stab
+212,-1,6,1,-1,0x40,0,10,1,no,0,0,0,weapon,0,0x84,	RG_BACKSTAP,Back Stab
 213,0,0,0,0,0,0,5,0,no,0,0,0,none,0,0x0,		RG_TUNNELDRIVE,Stalk
 214,0,6,4,-1,0x2,1,5,1,no,0,0,0,weapon,0,0x4,	RG_RAID,Sightless Mind
 215,1,6,1,0,0x1,0,5,1,no,0,0,0,weapon,0,0x0,		RG_STRIPWEAPON,Divest Weapon
@@ -346,9 +346,9 @@
 226,0,0,0,0,0,0,10,0,no,0,0,0,weapon,0,0x0,		AM_AXEMASTERY,Axe Mastery
 227,0,0,0,0,0,0,10,0,no,0,0,0,none,0,0x0,		AM_LEARNINGPOTION,Potion Research
 228,0,6,4,0,0x1,0,10,0,no,0,0,0,none,0,0x0,		AM_PHARMACY,Prepare Potion
-229,9,6,2,3,0x9,0,5,1,yes,0,0,0,weapon,0,0x0,	AM_DEMONSTRATION,Bomb
-230,9,6,1,0,0x48,0,5,1,yes,0,0,0,weapon,0,0x0,	AM_ACIDTERROR,Acid Terror
-231,9,6,16,0,0x1,0,5,1,yes,0,0xC00,0,none,0,0x0,	AM_POTIONPITCHER,Aid Potion
+229,14,6,2,3,0xE2,0,5,1,yes,0,0,0,weapon,0,0x0,	AM_DEMONSTRATION,Bomb // Range increased to 14, Area added, Percent modifiers apply
+230,14,6,1,0,0xE2,0,5,1,yes,0,0,0,weapon,0,0x0,	AM_ACIDTERROR,Acid Terror // Range increased to 14, Area added, Percent modifiers apply
+231,14,6,16,0,0x1,0,5,1,yes,0,0xC00,0,none,0,0x0,	AM_POTIONPITCHER,Aid Potion
 232,4,6,2,0,0x1,0,5,1,no,0,0,5,none,0,0x0,		AM_CANNIBALIZE,Summon Flora
 233,1,6,2,0,0x1,0,5,1,no,0,0,3,none,0,0x0,		AM_SPHEREMINE,Summon Marine Sphere
 234,1,6,16,0,0x1,0,5,1,yes,0,0,0,weapon,0,0x0,	AM_CP_WEAPON,Alchemical Weapon
@@ -734,14 +734,14 @@
 509,0,0,0,0,0,0,10,0,no,0,0,0,none,0,0x0,		GS_SINGLEACTION,Single Action
 510,0,0,0,0,0,0,10,0,no,0,0,0,none,0,0x0,		GS_SNAKEEYE,Snake Eye
 511,-9,8,0,-1,0,0,10,2,no,0,0,0,weapon,0,0x0,	GS_CHAINACTION,Chain Action
-512,-9,6,1,-1,0,0,10,1,yes,0,0,0,weapon,0,0x0,	GS_TRACKING,Tracking
+512,-9,6,1,-1,0,0,10,1,yes,0,0,0,weapon,0,0x100,	GS_TRACKING,Tracking // Changelog: Range is affected by Snake Eye
 513,-9,6,1,-1,0,0,5,1,no,0,0,0,weapon,0,0x0,		GS_DISARM,Disarm
 514,-9,6,1,-1,0x20,0,5,1,no,0,0,0,weapon,0,0x100,	GS_PIERCINGSHOT,Piercing Shot
 515,-9,8,1,-1,0,0,10,-5,no,0,0,0,weapon,0,0x100,	GS_RAPIDSHOWER,Rapid Shower
 516,0,8,4,-1,0x2,3,10,1,no,0,0,0,weapon,0,0x0,	GS_DESPERADO,Desperado
 517,0,6,4,-1,0x1,0,10,1,no,0,0,0,weapon,0,0x0,	GS_GATLINGFEVER,Gatling Fever
-518,2,6,1,-1,0,0,10,1,no,0,0,0,weapon,5,0x0,		GS_DUST,Dust
-519,-9,6,1,-1,0,0,10,1,yes,0,0,0,weapon,0,0x100,	GS_FULLBUSTER,Full Buster
+518,2,6,1,-1,0x06,1,10,1,no,0,0,0,weapon,5,0x100,		GS_DUST,Dust // Changelog: Area attack, damage is split, range is affected by Snake Eye
+519,-9,6,1,-1,0x06,1,10,1,yes,0,0,0,weapon,3,0x100,	GS_FULLBUSTER,Full Buster // Changelog: Area attack, damage is split, knockback 3 cells
 520,-9,6,1,-1,0x2,1:1:1:2:2:2:3:3:3:4,10,1,no,0,0,0,weapon,0,0x100,	GS_SPREADATTACK,Spread Attack
 521,-9,6,2,-1,0x40,1,10,1,no,0,0,0,misc,3,0x100,	GS_GROUNDDRIFT,Ground Drift
 

@@ -968,7 +968,7 @@ int skill_additional_effect(struct block_list* src, struct block_list *bl, uint1
 			for( i = 0; i < ARRAYLENGTH(sd->addeff) && sd->addeff[i].flag; i++ ) {
 				rate = sd->addeff[i].rate;
 				if( attack_type&BF_LONG ) // Any ranged physical attack takes status arrows into account (Grimtooth...) [DracoRPG]
-					rate += sd->addeff[i].arrow_rate;
+					rate += sd->addeff[i].arrow_rate*10;
 				if( !rate )
 					continue;
 
@@ -1018,7 +1018,7 @@ int skill_additional_effect(struct block_list* src, struct block_list *bl, uint1
 			}
 			//"While the damage can be blocked by Pneuma, the chance to break armor remains", irowiki. [Cydh]
 			if (dmg_lv == ATK_BLOCK && skill_id == AM_ACIDTERROR) {
-				sc_start2(src,bl,SC_BLEEDING,(skill_lv*3),skill_lv,src->id,skill_get_time2(skill_id,skill_lv));
+				sc_start2(src,bl,SC_BLEEDING,(skill_lv*12),skill_lv,src->id,skill_get_time2(skill_id,skill_lv)); // Chance increased to 60% - by lkz00r
 				if (skill_break_equip(src,bl, EQP_ARMOR, 100*skill_get_time(skill_id,skill_lv), BCT_ENEMY))
 					clif_emotion(bl,E_OMG);
 			}
@@ -1123,20 +1123,23 @@ int skill_additional_effect(struct block_list* src, struct block_list *bl, uint1
 		break;
 
 	case AS_SONICBLOW:
-		sc_start(src,bl,SC_STUN,(2*skill_lv+10),skill_lv,skill_get_time2(skill_id,skill_lv));
+		sc_start(src,bl,SC_STUN,(4*skill_lv+10),skill_lv,skill_get_time2(skill_id,skill_lv)); // Sonic Blow has a 50% Stun chance - by lkz00r
 		break;
 
+	case RG_BACKSTAP:
+		sc_start(src,bl,SC_STUN,150,skill_lv,4000); // Backstab has a 100% Stun chance - by lkz00r
+		break;
 	case WZ_FIREPILLAR:
 		unit_set_walkdelay(bl, tick, skill_get_time2(skill_id, skill_lv), 1);
 		break;
 
 	case MG_FROSTDIVER:
-		if(!sc_start(src,bl,SC_FREEZE,min(skill_lv*3+35,skill_lv+60),skill_lv,skill_get_time2(skill_id,skill_lv)) && sd)
+		if(!sc_start(src,bl,SC_FREEZE,min(skill_lv*5+40,skill_lv+60),skill_lv,skill_get_time2(skill_id,skill_lv)) && sd) // Frost Diver has a 90% Freeze chance on lv 10
 			clif_skill_fail(sd,skill_id,USESKILL_FAIL_LEVEL,0);
 		break;
 
 	case WZ_FROSTNOVA:
-		sc_start(src,bl,SC_FREEZE,skill_lv*5+33,skill_lv,skill_get_time2(skill_id,skill_lv));
+		sc_start(src,bl,SC_FREEZE,skill_lv*5+50,skill_lv,skill_get_time2(skill_id,skill_lv)); // Freeze chance increased to 100% with enough skill levels
 		break;
 
 	case WZ_STORMGUST:
@@ -1164,16 +1167,16 @@ int skill_additional_effect(struct block_list* src, struct block_list *bl, uint1
 
 	case HT_FREEZINGTRAP:
 	case MA_FREEZINGTRAP:
-		sc_start(src,bl,SC_FREEZE,(3*skill_lv+35),skill_lv,skill_get_time2(skill_id,skill_lv));
+		sc_start(src,bl,SC_FREEZE,(10*skill_lv+50),skill_lv,skill_get_time2(skill_id,skill_lv)); // 100% freeze chance at lv 5 - by lkz00r
 		break;
 
 	case HT_FLASHER:
-		sc_start(src,bl,SC_BLIND,(10*skill_lv+30),skill_lv,skill_get_time2(skill_id,skill_lv));
+		sc_start(src,bl,SC_BLIND,(10*skill_lv+50),skill_lv,skill_get_time2(skill_id,skill_lv)); // 100% blind chance at lv 5 - by lkz00r
 		break;
 
 	case HT_LANDMINE:
 	case MA_LANDMINE:
-		sc_start(src,bl,SC_STUN,(5*skill_lv+30),skill_lv,skill_get_time2(skill_id,skill_lv));
+		sc_start(src,bl,SC_STUN,(5*skill_lv+50),skill_lv,skill_get_time2(skill_id,skill_lv)); // 100% stun chance at lv 5 - by lkz00r
 		break;
 
 	case HT_SHOCKWAVE:
@@ -1182,7 +1185,7 @@ int skill_additional_effect(struct block_list* src, struct block_list *bl, uint1
 
 	case HT_SANDMAN:
 	case MA_SANDMAN:
-		sc_start(src,bl,SC_SLEEP,(10*skill_lv+40),skill_lv,skill_get_time2(skill_id,skill_lv));
+		sc_start(src,bl,SC_SLEEP,(10*skill_lv+50),skill_lv,skill_get_time2(skill_id,skill_lv)); // 100% sleep chance at lv 5 - by lkz00r
 		break;
 
 	case TF_SPRINKLESAND:
@@ -1212,7 +1215,7 @@ int skill_additional_effect(struct block_list* src, struct block_list *bl, uint1
 		break;
 
 	case AM_ACIDTERROR:
-		sc_start2(src,bl,SC_BLEEDING,(skill_lv*3),skill_lv,src->id,skill_get_time2(skill_id,skill_lv));
+		sc_start2(src,bl,SC_BLEEDING,(skill_lv*12),skill_lv,src->id,skill_get_time2(skill_id,skill_lv)); // Bleeding chance raised to 60% on lv 5 - by lkz00r
 		if (skill_break_equip(src,bl, EQP_ARMOR, 100*skill_get_time(skill_id,skill_lv), BCT_ENEMY))
 			clif_emotion(bl,E_OMG);
 		break;
@@ -1248,11 +1251,11 @@ int skill_additional_effect(struct block_list* src, struct block_list *bl, uint1
 		break;
 
 	case BA_FROSTJOKER:
-		sc_start(src,bl,SC_FREEZE,(15+5*skill_lv),skill_lv,skill_get_time2(skill_id,skill_lv));
+		sc_start(src,bl,SC_FREEZE,(70+5*skill_lv),skill_lv,skill_get_time2(skill_id,skill_lv));
 		break;
 
 	case DC_SCREAM:
-		sc_start(src,bl,SC_STUN,(25+5*skill_lv),skill_lv,skill_get_time2(skill_id,skill_lv));
+		sc_start(src,bl,SC_STUN,(70+5*skill_lv),skill_lv,skill_get_time2(skill_id,skill_lv));
 		break;
 
 	case BD_LULLABY:
@@ -1266,8 +1269,8 @@ int skill_additional_effect(struct block_list* src, struct block_list *bl, uint1
 		status_zap(bl, 0, rate);
 		break;
 	case SL_STUN:
-		if (tstatus->size==SZ_MEDIUM) //Only stuns mid-sized mobs.
-			sc_start(src,bl,SC_STUN,(30+10*skill_lv),skill_lv,skill_get_time(skill_id,skill_lv));
+		//if (tstatus->size==SZ_MEDIUM) //Only stuns mid-sized mobs. - Stuns any kind of monster regardless of size
+			sc_start(src,bl,SC_STUN,(50+10*skill_lv),skill_lv,skill_get_time(skill_id,skill_lv));
 		break;
 
 	case NPC_PETRIFYATTACK:
@@ -1335,37 +1338,37 @@ int skill_additional_effect(struct block_list* src, struct block_list *bl, uint1
 		break;
 
 	case LK_HEADCRUSH: //Headcrush has chance of causing Bleeding status, except on demon and undead element
-		if (!(battle_check_undead(tstatus->race, tstatus->def_ele) || tstatus->race == RC_DEMON))
-			sc_start2(src,bl, SC_BLEEDING,50, skill_lv, src->id, skill_get_time2(skill_id,skill_lv));
+		// if (!(battle_check_undead(tstatus->race, tstatus->def_ele) || tstatus->race == RC_DEMON)) - No race restrictions and increased chance -- by lkz00r
+			sc_start2(src,bl, SC_BLEEDING,80, skill_lv, src->id, skill_get_time2(skill_id,skill_lv));
 		break;
 
 	case LK_JOINTBEAT:
 		status = status_skill2sc(skill_id);
 		if (tsc->jb_flag) {
-			sc_start4(src,bl,status,(5*skill_lv+5),skill_lv,tsc->jb_flag&BREAK_FLAGS,src->id,0,skill_get_time2(skill_id,skill_lv));
+			sc_start4(src,bl,status,(5*skill_lv+30),skill_lv,tsc->jb_flag&BREAK_FLAGS,src->id,0,skill_get_time2(skill_id,skill_lv)); // Increased chance - by lkz00r
 			tsc->jb_flag = 0;
 		}
 		break;
 	case ASC_METEORASSAULT:
 		//Any enemies hit by this skill will receive Stun, Darkness, or external bleeding status ailment with a 5%+5*skill_lv% chance.
-		switch(rnd()%3) {
+		switch(rnd()%3) { // Status chance increased to 75% - by lkz00r
 			case 0:
-				sc_start(src,bl,SC_BLIND,(5+skill_lv*5),skill_lv,skill_get_time2(skill_id,1));
+				sc_start(src,bl,SC_BLIND,(25+skill_lv*5),skill_lv,skill_get_time2(skill_id,1));
 				break;
 			case 1:
-				sc_start(src,bl,SC_STUN,(5+skill_lv*5),skill_lv,skill_get_time2(skill_id,2));
+				sc_start(src,bl,SC_STUN,(25+skill_lv*5),skill_lv,skill_get_time2(skill_id,2));
 				break;
 			default:
-				sc_start2(src,bl,SC_BLEEDING,(5+skill_lv*5),skill_lv,src->id,skill_get_time2(skill_id,3));
+				sc_start2(src,bl,SC_BLEEDING,(25+skill_lv*5),skill_lv,src->id,skill_get_time2(skill_id,3));
 		}
 		break;
 
 	case HW_NAPALMVULCAN:
-		sc_start(src,bl,SC_CURSE,5*skill_lv,skill_lv,skill_get_time2(skill_id,skill_lv));
+		sc_start(src,bl,SC_CURSE,15*skill_lv,skill_lv,skill_get_time2(skill_id,skill_lv)); // Curse chance increased to 75% - by lkz00r
 		break;
 
 	case WS_CARTTERMINATION:	// Cart termination
-		sc_start(src,bl,SC_STUN,5*skill_lv,skill_lv,skill_get_time2(skill_id,skill_lv));
+		sc_start(src,bl,SC_STUN,(30+5*skill_lv),skill_lv,skill_get_time2(skill_id,skill_lv));
 		break;
 
 	case CR_ACIDDEMONSTRATION:
@@ -1398,7 +1401,7 @@ int skill_additional_effect(struct block_list* src, struct block_list *bl, uint1
 			status_change_start(src,bl,SC_COMA,10,skill_lv,0,src->id,0,0,SCSTART_NONE);
 		break;
 	case GS_PIERCINGSHOT:
-		sc_start2(src,bl,SC_BLEEDING,(skill_lv*3),skill_lv,src->id,skill_get_time2(skill_id,skill_lv));
+		sc_start2(src,bl,SC_BLEEDING,(skill_lv*10),skill_lv,src->id,skill_get_time2(skill_id,skill_lv));
 		break;
 	case NJ_HYOUSYOURAKU:
 		sc_start(src,bl,SC_FREEZE,(10+10*skill_lv),skill_lv,skill_get_time2(skill_id,skill_lv));
@@ -2204,16 +2207,16 @@ int skill_counter_additional_effect (struct block_list* src, struct block_list *
 		sc_start(src,src,SC_EXTREMITYFIST,100,skill_lv,skill_get_time2(skill_id,skill_lv));
 		break;
 	case GS_FULLBUSTER:
-		sc_start(src,src,SC_BLIND,2*skill_lv,skill_lv,skill_get_time2(skill_id,skill_lv));
+		//sc_start(src,src,SC_BLIND,2*skill_lv,skill_lv,skill_get_time2(skill_id,skill_lv)); - Blind disabled - by lkz00r
 		break;
 	case HFLI_SBR44:	//[orn]
 	case HVAN_EXPLOSION:
-		if(src->type == BL_HOM){
-			TBL_HOM *hd = (TBL_HOM*)src;
-			hd->homunculus.intimacy = (skill_id == HFLI_SBR44) ? 200 : 100; // hom_intimacy_grade2intimacy(HOMGRADE_HATE_WITH_PASSION)
-			if (hd->master)
-				clif_send_homdata(hd->master,SP_INTIMATE,hd->homunculus.intimacy/100);
-		}
+		//if(src->type == BL_HOM){
+		//	TBL_HOM *hd = (TBL_HOM*)src;
+		//	hd->homunculus.intimacy = (skill_id == HFLI_SBR44) ? 200 : 100; // hom_intimacy_grade2intimacy(HOMGRADE_HATE_WITH_PASSION)
+		//	if (hd->master)
+		//		clif_send_homdata(hd->master,SP_INTIMATE,hd->homunculus.intimacy/100);
+		//} - Intimacy loss disabled - by lkz00r
 		break;
 	case CR_GRANDCROSS:
 	case NPC_GRANDDARKNESS:
@@ -3610,8 +3613,8 @@ static int skill_check_unit_range2_sub (struct block_list *bl, va_list ap)
 	if( skill_id == HP_BASILICA && bl->type == BL_PC )
 		return 0;
 
-	if( skill_id == AM_DEMONSTRATION && bl->type == BL_MOB && ((TBL_MOB*)bl)->mob_id == MOBID_EMPERIUM )
-		return 0; //Allow casting Bomb/Demonstration Right under emperium [Skotlex]
+	if( skill_id == AM_DEMONSTRATION && bl->type == BL_MOB ) //&& ((TBL_MOB*)bl)->mob_id == MOBID_EMPERIUM )
+		return 0; // Allow casting Demonstration under enemies - by lkz00r //Allow casting Bomb/Demonstration Right under emperium [Skotlex]
 	return 1;
 }
 
@@ -4516,8 +4519,8 @@ int skill_castend_damage_id (struct block_list* src, struct block_list *bl, uint
 			if ((!check_distance_bl(src, bl, 0) && !map_check_dir(dir, t_dir)) || bl->type == BL_SKILL) {
 				status_change_end(src, SC_HIDING, INVALID_TIMER);
 				skill_attack(BF_WEAPON, src, src, bl, skill_id, skill_lv, tick, flag);
-				dir = dir < 4 ? dir+4 : dir-4; // change direction [Celest]
-				unit_setdir(bl,dir);
+				//dir = dir < 4 ? dir+4 : dir-4; // change direction [Celest]
+				//unit_setdir(bl,dir);
 			}
 			else if (sd)
 				clif_skill_fail(sd,skill_id,USESKILL_FAIL_LEVEL,0);
@@ -5696,11 +5699,14 @@ int skill_castend_damage_id (struct block_list* src, struct block_list *bl, uint
 				break;
 			if (flag&1)
 				sflag = (skill_area_temp[0]&0xFFF)|(flag&SD_LEVEL ? SD_LEVEL : 0)|(flag&SD_ANIMATION ? SD_ANIMATION : 0);
-			skill_attack(skill_get_type(skill_id), src, src, bl, skill_id, skill_lv, tick, sflag);
+
+				skill_attack(skill_get_type(skill_id), src, src, bl, skill_id, skill_lv, tick, sflag);
+			
 			if (sd) {
 				if (skill_id != RL_D_TAIL)
 					status_change_end(bl, SC_C_MARKER, INVALID_TIMER);
 			}
+			
 		}
 		break;
 
@@ -8121,9 +8127,9 @@ int skill_castend_nodamage_id (struct block_list *src, struct block_list *bl, ui
 	case AS_SPLASHER:
 		if(tstatus->mode&MD_BOSS
 		// Renewal dropped the 3/4 hp requirement
-#ifndef RENEWAL
-			|| tstatus-> hp > tstatus->max_hp*3/4
-#endif
+//#ifndef RENEWAL
+			//|| tstatus-> hp > tstatus->max_hp*3/4
+//#endif		
 				) {
 			if (sd) clif_skill_fail(sd,skill_id,USESKILL_FAIL_LEVEL,0);
 			map_freeblock_unlock();
@@ -8132,7 +8138,7 @@ int skill_castend_nodamage_id (struct block_list *src, struct block_list *bl, ui
 		clif_skill_nodamage(src,bl,skill_id,skill_lv,
 			sc_start4(src,bl,type,100,skill_lv,skill_id,src->id,skill_get_time(skill_id,skill_lv),1000));
 #ifndef RENEWAL
-		if (sd) skill_blockpc_start (sd, skill_id, skill_get_time(skill_id, skill_lv)+3000);
+		if (sd) skill_blockpc_start (sd, skill_id, skill_get_time(skill_id, skill_lv)+3000); // +3000 removed at the end, due to cd reduction - by lkz00r
 #endif
 		break;
 
@@ -8158,6 +8164,7 @@ int skill_castend_nodamage_id (struct block_list *src, struct block_list *bl, ui
 				if (sd) clif_skill_fail(sd,skill_id,USESKILL_FAIL_LEVEL,0);
 				map_freeblock_unlock();
 				return 0;
+
 			}
 
 			unit_skillcastcancel(bl,0);
@@ -8537,8 +8544,8 @@ int skill_castend_nodamage_id (struct block_list *src, struct block_list *bl, ui
 
 	case GS_GLITTERING:
 		if(sd) {
-			clif_skill_nodamage(src,bl,skill_id,skill_lv,1);
-			if(rnd()%100 < (20+10*skill_lv))
+			clif_skill_nodamage(src,bl,skill_id,skill_lv,1); // Chance increased. 20+10* to 30+10* totalling 80% at lv 5.
+			if(rnd()%100 < (30+10*skill_lv))
 				pc_addspiritball(sd,skill_get_time(skill_id,skill_lv),10);
 			else if(sd->spiritball > 0 && !pc_checkskill(sd,RL_RICHS_COIN))
 				pc_delspiritball(sd,1,0);
@@ -10620,11 +10627,19 @@ int skill_castend_nodamage_id (struct block_list *src, struct block_list *bl, ui
 		}
 		break;
 	case RL_D_TAIL:
+		//struct unit_data *ud = unit_bl2ud(src);
 		if (sd) {
-			if (battle_config.skill_wall_check)
+			if (battle_config.skill_wall_check){
 				skill_area_temp[0] = map_foreachinshootrange(skill_area_sub, src, skill_get_splash(skill_id, skill_lv), BL_CHAR, src, skill_id, skill_lv, tick, BCT_ENEMY, skill_area_sub_count);
-			else
+				//skill_consume_requirement(sd,skill_id,skill_lv,1);
+				// char pc_delitem(struct map_session_data *sd, int n, int amount, int type, short reason, e_log_pick_type log_type);
+				//pc_delitem(sd, 7665, 1, 1, 1, LOG_TYPE_CONSUME);
+			}
+			else{
 				skill_area_temp[0] = map_foreachinrange(skill_area_sub, src, skill_get_splash(skill_id, skill_lv), BL_CHAR, src, skill_id, skill_lv, tick, BCT_ENEMY, skill_area_sub_count);
+				//skill_consume_requirement(sd,skill_id,skill_lv,1);
+				//pc_delitem(sd, 7665, 1, 1, 1, LOG_TYPE_CONSUME);
+			}
 			if (!skill_area_temp[0]) {
 				clif_skill_fail(sd, skill_id, USESKILL_FAIL_LEVEL, 0);
 				break;
@@ -11693,24 +11708,24 @@ int skill_castend_pos2(struct block_list* src, int x, int y, uint16 skill_id, ui
 	// Plant Cultivation [Celest]
 	case CR_CULTIVATION:
 		if (sd) {
-			if( map_count_oncell(src->m,x,y,BL_CHAR,0) > 0 )
+			/* if( map_count_oncell(src->m,x,y,BL_CHAR,0) > 0 )
 			{
 				clif_skill_fail(sd,skill_id,USESKILL_FAIL_LEVEL,0);
 				return 1;
-			}
+			} */ //- Reallows Stacking on the same cell - by lkz00r
 			clif_skill_poseffect(src,skill_id,skill_lv,x,y,tick);
 			if (rnd()%100 < 50) {
 				clif_skill_fail(sd,skill_id,USESKILL_FAIL_LEVEL,0);
 			} else {
 				TBL_MOB* md = mob_once_spawn_sub(src, src->m, x, y, "--ja--",(skill_lv < 2 ? MOBID_BLACK_MUSHROOM + rnd()%2 : MOBID_RED_PLANT + rnd()%6),"", SZ_SMALL, AI_NONE);
-				int t;
+				//int t; - No timer for Cultivation spawns - by lkz00r
 				if (!md) break;
-				if ((t = skill_get_time(skill_id, skill_lv)) > 0)
-				{
-					if( md->deletetimer != INVALID_TIMER )
-						delete_timer(md->deletetimer, mob_timer_delete);
-					md->deletetimer = add_timer (tick + t, mob_timer_delete, md->bl.id, 0);
-				}
+				//if ((t = skill_get_time(skill_id, skill_lv)) > 0)
+				//{
+				//	if( md->deletetimer != INVALID_TIMER )
+				//		delete_timer(md->deletetimer, mob_timer_delete);
+				//	md->deletetimer = add_timer (tick + t, mob_timer_delete, md->bl.id, 0);
+				//}
 				mob_spawn (md);
 			}
 		}

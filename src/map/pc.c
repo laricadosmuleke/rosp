@@ -10105,6 +10105,10 @@ void pc_regen (struct map_session_data *sd, unsigned int diff_tick)
 		while (sd->hp_regen.tick >= sd->hp_regen.rate) {
 			hp += sd->hp_regen.value;
 			sd->hp_regen.tick -= sd->hp_regen.rate;
+			if((!battle_config.prevent_logout || DIFF_TICK(gettick(), sd->canlog_tick) > battle_config.prevent_logout) )
+			{
+			hp += (sd->hp_regen.value)*20;
+			}
 		}
 	}
 
@@ -10113,6 +10117,11 @@ void pc_regen (struct map_session_data *sd, unsigned int diff_tick)
 		while (sd->sp_regen.tick >= sd->sp_regen.rate) {
 			sp += sd->sp_regen.value;
 			sd->sp_regen.tick -= sd->sp_regen.rate;
+			if((!battle_config.prevent_logout || DIFF_TICK(gettick(), sd->canlog_tick) > battle_config.prevent_logout) )
+			{
+			sp += (sd->sp_regen.value)*20;
+			}
+						
 		}
 	}
 

@@ -14,7 +14,7 @@
 // Note: Delay setting '1' only makes sense when delay_dependon_dex is enabled.
 // Example: 46,1,1 = Double Strafe's cast time and delay is not affected by dex.
 
-136,0,2	//AS_SONICBLOW
+136,0,0	//AS_SONICBLOW - AFFECTED by bragi // by lkz00r
 263,0,2	//MO_TRIPLEATTACK
 272,0,2	//MO_CHAINCOMBO
 273,0,2	//MO_COMBOFINISH
@@ -24,16 +24,16 @@
 371,0,2	//CH_TIGERFIST
 372,0,2	//CH_CHAINCRUSH
 394,0,2	//CG_ARROWVULCAN
-403,3	//PF_MEMORIZE
+// 403,3	//PF_MEMORIZE // Memorize cast time is affected by DEX and statuses
 408,1	//WE_BABY
 409,1	//WE_CALLPARENT
 410,1	//WE_CALLBABY
-482,1	//PF_DOUBLECASTING
+// 482,1	//PF_DOUBLECASTING // Double Casting cast time is affected by DEX and statuses
 462,1	//SL_KAIZEL
 496,1	//AM_TWILIGHT1
 497,1	//AM_TWILIGHT2
 498,1	//AM_TWILIGHT3
-512,3	//GS_TRACKING
+512,0,0	//GS_TRACKING - AFFECTED by dex and stuff // by lkz00r
 1014,1	//PR_REDEMPTIO
 
 2012,7	//RK_CRUSHSTRIKE

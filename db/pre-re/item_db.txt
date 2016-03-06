@@ -4066,6 +4066,24 @@
 7631,Trash_Debris,Trash Debris,3,0,,0,,,,,,,,,,,,,{},{},{}
 7635,Sachet,Sachet,3,100,,0,,,,,,,,,,,,,{},{},{}
 //
+7636,Magic_Potion_Bottle,Magic Potion Bottle,3,0,,0,,,,,,,,,,,,,{},{},{}
+7637,Father_Giftbox,Father Giftbox,3,0,,10,,,,,,,,,,,,,{},{},{}
+7638,TW_Green_Box,TW Green Box,3,0,,10,,,,,,,,,,,,,{},{},{}
+7639,TW_Red_Box,TW Red Box,3,0,,10,,,,,,,,,,,,,{},{},{}
+7640,Butterfly_Hair_Decoration,Butterfly Hair Decoration,3,10,,10,,,,,,,,,,,,,{},{},{}
+7641,Medical_Cure_Box,Medical Cure Box,3,10,,0,,,,,,,,,,,,,{},{},{}
+7642,Bloody_Coin,Bloody Coin,3,10,,0,,,,,,,,,,,,,{},{},{}
+7643,Bloody_Letter,Bloody Letter,3,10,,10,,,,,,,,,,,,,{},{},{}
+7644,Unsent_Letter,Unsent Letter,3,10,,0,,,,,,,,,,,,,{},{},{}
+7646,RO_Luk_Bookmark,RO Luk Bookmark,3,20,,10,,,,,,,,,,,,,{},{},{}
+7647,Taiwan_Luk_Coin,Taiwan Luk Coin,3,0,,0,,,,,,,,,,,,,{},{},{}
+7648,Snake_Bookmark,Snake Bookmark,3,20,,10,,,,,,,,,,,,,{},{},{}
+7649,Big_Luk_Bookmark,Big Luk Bookmark,3,20,,10,,,,,,,,,,,,,{},{},{}
+7651,Mystery_Egg,Mystery Egg,3,10,,10,,,,,,,,,,,,,{},{},{}
+7663,Full_Metal_Jacket,Full Metal Jacket,10,200,,2,10,,,,0x41000000,63,2,32768,,1,,3,{},{},{}
+7664,Projection_Landmines,Projection Landmines,10,450,,3,10,,,,0x41000000,63,2,32768,,1,,5,{},{},{}
+7665,Dragon_Tail_Missile,Dragon Tail Missile,10,1500,,100,10,,,,0x41000000,63,2,32768,,1,,5,{},{},{}
+//
 7701,Dragon_Spirit,Soul,3,2,,10,,,,,,,,,,,,,{},{},{}
 7702,Special_Cogwheel,Special Cogwheel,3,2,,10,,,,,,,,,,,,,{},{},{}
 7703,Piece_Of_Cogwheel,Piece of Cogwheel,3,2,,10,,,,,,,,,,,,,{},{},{}
@@ -5429,6 +5447,26 @@
 13205,Poison_Sphere,Poison Sphere,10,80,,5,50,,,,0x41000000,7,2,32768,,1,,5,{ bonus bAtkEle,Ele_Poison; bonus2 bAddEff,Eff_Poison,500; },{},{}
 13206,Blind_Sphere,Blind Sphere,10,80,,5,50,,,,0x41000000,7,2,32768,,1,,5,{ bonus bAtkEle,Ele_Dark; bonus2 bAddEff,Eff_Blind,500; },{},{}
 13207,Freezing_Sphere,Freezing Sphere,10,80,,5,50,,,,0x41000000,7,2,32768,,1,,5,{ bonus bAtkEle,Ele_Water; },{},{}
+13208,Gong_Bug,Sow Bug,10,0,,5,50,,,,0x41000000,63,2,32768,,50,,3,{ bonus2 bAddEff,Eff_Stun,1000; },{},{}
+13210,Slug_Ammunition_L,Slug Ammunition L,10,250,,250,30,,,,0x41000000,63,2,32768,,1,,3,{},{},{}
+13211,Slug_Ammunition_M,Slug Ammunition M,10,500,,500,30,,,,0x41000000,63,2,32768,,1,,3,{},{},{}
+13212,Slug_Ammunition_H,Slug Ammunition H,10,750,,750,30,,,,0x41000000,63,2,32768,,1,,3,{},{},{}
+13213,Slug_Ammunition_SH,Slug Ammunition SH,10,1,,1000,30,,,,0x41000000,63,2,32768,,1,,3,{},{},{}
+13214,Slug_Ammunition_XH,Slug Ammunition XH,10,1,,1200,30,,,,0x41000000,63,2,32768,,1,,3,{},{},{}
+13215,Armor_Burnt,Armor Burnt,10,10,,2,50,,,0,0xFFFFFFFF,63,2,32768,,100,,3,{ bonus bAtkEle,Ele_Neutral; },{},{}
+13216,Incandescence_Shot,Incandescence Shot,10,10,,2,40,,,0,0xFFFFFFFF,63,2,32768,,100,,3,{ bonus bAtkEle,Ele_Fire; },{},{}
+13217,Glaciation_Shot,Glaciation Shot,10,10,,2,40,,,0,0xFFFFFFFF,63,2,32768,,100,,3,{ bonus bAtkEle,Ele_Water; },{},{}
+13218,Dengeki_Shot,Dengeki Shot,10,10,,2,40,,,0,0xFFFFFFFF,63,2,32768,,100,,3,{ bonus bAtkEle,Ele_Wind; },{},{}
+13219,Hearthstone_Shot,Hearthstone Shot,10,10,,2,40,,,0,0xFFFFFFFF,63,2,32768,,100,,3,{ bonus bAtkEle,Ele_Earth; },{},{}
+13220,Purification_Shot,Purification Shot,10,10,,2,40,,,0,0xFFFFFFFF,63,2,32768,,100,,3,{ bonus bAtkEle,Ele_Holy; },{},{}
+13221,Silver_Bullet_,Silver Bullet,10,10,,2,15,,,0,0xFFFFFFFF,63,2,32768,,1,,3,{ bonus bAtkEle,Ele_Holy; },{},{}
+13222,Bloody_Shell,Bloody Shell,10,10,,2,30,,,0,0xFFFFFFFF,63,2,32768,,1,,3,{ bonus bAtkEle,Ele_Neutral; },{},{}
+13223,Flare_Sphere_,Flare Sphere,10,10,,5,50,,,0,0xFFFFFFFF,63,2,32768,,1,,5,{ bonus bAtkEle,Ele_Fire; },{},{}
+13224,Lightning_Sphere,Lightning Sphere,10,10,,5,50,,,0,0xFFFFFFFF,63,2,32768,,1,,5,{ bonus bAtkEle,Ele_Wind; },{},{}
+13225,Poison_Sphere_,Poison Sphere,10,10,,5,50,,,0,0xFFFFFFFF,63,2,32768,,1,,5,{ bonus bAtkEle,Ele_Poison; },{},{}
+13226,Blind_Sphere_,Blind Sphere,10,10,,5,50,,,0,0xFFFFFFFF,63,2,32768,,1,,5,{ bonus bAtkEle,Ele_Dark; },{},{}
+13227,Freezing_Sphere_,Freezing Sphere,10,10,,5,50,,,0,0xFFFFFFFF,63,2,32768,,1,,5,{ bonus bAtkEle,Ele_Water; },{},{}
+
 // Shurikens & Kunais
 13250,Shuriken,Shuriken,10,4,,5,10,,,,0x02000000,7,2,32768,,1,,6,{},{},{}
 13251,Nimbus_Shuriken,Nimbus Shuriken,10,10,,5,30,,,,0x02000000,7,2,32768,,20,,6,{},{},{}

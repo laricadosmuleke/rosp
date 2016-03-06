@@ -1280,7 +1280,7 @@ void initChangeTables(void)
 	StatusChangeStateTable[SC_HEAT_BARREL_AFTER]	|= SCS_NOCAST;
 
 	/* StatusChangeState (SCS_) NOCHAT (skills) */
-	StatusChangeStateTable[SC_BERSERK]				|= SCS_NOCHAT;
+	//StatusChangeStateTable[SC_BERSERK]				|= SCS_NOCHAT; - Berserk can chat - by lkz00r
 	StatusChangeStateTable[SC_SATURDAYNIGHTFEVER]	|= SCS_NOCHAT;
 	StatusChangeStateTable[SC_DEEPSLEEP]			|= SCS_NOCHAT;
 	StatusChangeStateTable[SC_NOCHAT]				|= SCS_NOCHAT|SCS_NOCHATCOND;
@@ -2140,7 +2140,7 @@ int status_check_visibility(struct block_list *src, struct block_list *target)
 			case BL_PC: {
 					struct map_session_data *tsd = (TBL_PC*)target;
 
-					if (((tsc->option&(OPTION_HIDE|OPTION_CLOAK|OPTION_CHASEWALK)) || tsc->data[SC_CAMOUFLAGE] || tsc->data[SC_STEALTHFIELD]) && !(status->mode&MD_BOSS) && (tsd->special_state.perfect_hiding || !(status->mode&MD_DETECTOR)))
+					if (((tsc->option&(OPTION_HIDE|OPTION_CLOAK|OPTION_CHASEWALK)) || tsc->data[SC_CAMOUFLAGE] || tsc->data[SC_STEALTHFIELD]) && !(status->mode&MD_BOSS) && (tsd->special_state.perfect_hiding))// || !(status->mode&MD_DETECTOR))) - cloaking is now perfect - by lkz00r
 						return 0;
 					if (tsc->data[SC_CLOAKINGEXCEED] && !(status->mode&MD_BOSS) && ((tsd && tsd->special_state.perfect_hiding) || (status->mode&MD_DETECTOR)))
 						return 0;
@@ -2149,7 +2149,7 @@ int status_check_visibility(struct block_list *src, struct block_list *target)
 				}
 				break;
 			default:
-				if (((tsc->option&(OPTION_HIDE|OPTION_CLOAK|OPTION_CHASEWALK)) || tsc->data[SC_CAMOUFLAGE] || tsc->data[SC_STEALTHFIELD]) && !(status->mode&(MD_BOSS|MD_DETECTOR)))
+				if (((tsc->option&(OPTION_HIDE|OPTION_CLOAK|OPTION_CHASEWALK)) || tsc->data[SC_CAMOUFLAGE] || tsc->data[SC_STEALTHFIELD]) && !(status->mode&(MD_BOSS)))//|MD_DETECTOR))) -- cloaking is now perfect - by lkz00r
 					return 0;
 		}
 	}
@@ -2194,7 +2194,7 @@ int status_base_amotion_pc(struct map_session_data* sd, struct status_data* stat
 	// Base weapon delay
 	amotion = (sd->status.weapon < MAX_WEAPON_TYPE)
 	 ? (job_info[classidx].aspd_base[sd->status.weapon]) // Single weapon
-	 : (job_info[classidx].aspd_base[sd->weapontype1] + job_info[classidx].aspd_base[sd->weapontype2])*7/10; // Dual-wield
+	 : (job_info[classidx].aspd_base[sd->weapontype1] + job_info[classidx].aspd_base[sd->weapontype2])*5/10; // Dual-wield - 7/10 replaced with 5/10 for dualwield aspd bonus - by lkz00r
 
 	// Percentual delay reduction from stats
 	amotion -= amotion * (4*status->agi + status->dex)/1000;
@@ -5365,7 +5365,7 @@ static unsigned short status_calc_batk(struct block_list *bl, struct status_chan
 	if(sc->data[SC_GATLINGFEVER])
 		batk += sc->data[SC_GATLINGFEVER]->val3;
 	if(sc->data[SC_MADNESSCANCEL])
-		batk += 100;
+		batk += batk; // Madness Canceller gives 200% ATK instead of +100 ATK - by lkz00r
 #endif
 	if(sc->data[SC_FIRE_INSIGNIA] && sc->data[SC_FIRE_INSIGNIA]->val1 == 2)
 		batk += 50;
@@ -6328,8 +6328,8 @@ static short status_calc_aspd(struct block_list *bl, struct status_change *sc, s
 
 	if(sc->data[SC_BERSERK] && skills1 < 15)
 		skills1 = 15;
-	else if(sc->data[SC_MADNESSCANCEL] && skills1 < 20)
-		skills1 = 20;
+	else if(sc->data[SC_MADNESSCANCEL] && skills1 < 30)
+		skills1 = 30; // Madness Canceller gives +30% ASPD instead of +20% - by lkz00r
 
 	if(sc->data[SC_DONTFORGETME])
 		skills2 -= sc->data[SC_DONTFORGETME]->val2 / 10;
@@ -8735,7 +8735,8 @@ int status_change_start(struct block_list* src, struct block_list* bl,enum sc_ty
 				tick += pc_checkskill(sd,GC_RESEARCHNEWPOISON)*3000;
 			break;
 		case SC_POISONREACT:
-			val2=(val1+1)/2 + val1/10; // Number of counters [Skotlex]
+			//val2=(val1+1)/2 + val1/10; // Number of counters [Skotlex]
+			val2=99999; // Poison React has infinite counters - by lkz00r
 			val3=50; // + 5*val1; // Chance to counter. [Skotlex]
 			break;
 		case SC_MAGICROD:
@@ -8959,7 +8960,7 @@ int status_change_start(struct block_list* src, struct block_list* bl,enum sc_ty
 			// Fall through
 			val3 = tick/1000; // Damage iterations
 			if(val3 < 1) val3 = 1;
-			tick_time = 1000; // [GodLesZ] tick time
+			tick_time = 300; // [GodLesZ] tick time - reduced from 1000 to 300 by lkz00r
 			// val4: HP damage
 			if (bl->type == BL_PC)
 				val4 = (type == SC_DPOISON) ? 2 + status->max_hp/50 : 2 + status->max_hp*3/200;
@@ -10300,9 +10301,10 @@ int status_change_start(struct block_list* src, struct block_list* bl,enum sc_ty
 			}
 			break;
 		case SC_E_CHAIN:
+			//val2 = 10;
+			//if (sd)
+			//	val2 = sd->spiritball_old;
 			val2 = 10;
-			if (sd)
-				val2 = sd->spiritball_old;
 			break;
 		case SC_ANTI_M_BLAST:
 			val2 = val1 * 10;
@@ -11867,8 +11869,12 @@ int status_change_timer(int tid, unsigned int tick, int id, intptr_t data)
 						mob_log_damage((TBL_MOB*)bl,src,sce->val4);
 				}
 				map_freeblock_lock();
-				if(status->hp >= max(status->max_hp>>2, sce->val4)) // Stop damaging after 25% HP left.
-					status_zap(bl, sce->val4, 0);
+				if(status->hp >= max(status->max_hp>>2, sce->val4)) { // Stop damaging after 25% HP left.
+				status_zap(bl, sce->val4, 0);
+        }
+        else{
+        status_zap(bl, sce->val4, 0);
+        }
 				if (sc->data[type]) { // Check if the status still last ( can be dead since then ).
 					sc_timer_next(1000 + tick, status_change_timer, bl->id, data );
 				}
@@ -12019,12 +12025,12 @@ int status_change_timer(int tid, unsigned int tick, int id, intptr_t data)
 		break;
 
 	case SC_SPLASHER:
-		// Custom Venom Splasher countdown timer
-		// if (sce->val4 % 1000 == 0) {
-		// 	char timer[10];
-		// 	snprintf (timer, 10, "%d", sce->val4/1000);
+		 //Custom Venom Splasher countdown timer
+		 //if (sce->val4 % 1000 == 0) {
+		//	char timer[10];
+			//snprintf (timer, 10, "%d", sce->val4/1000);
 		// 	clif_message(bl, timer);
-		// }
+		//}
 		if((sce->val4 -= 500) > 0) {
 			sc_timer_next(500 + tick, status_change_timer, bl->id, data);
 			return 0;
@@ -13160,12 +13166,19 @@ static int status_natural_heal(struct block_list* bl, va_list args)
 	// Natural Hp regen
 	if (flag&RGN_HP) {
 		rate = (int)(natural_heal_diff_tick * (regen->rate.hp/100. * multi));
+		
+		
+
 		if (ud && ud->walktimer != INVALID_TIMER)
 			rate /= 2;
 		// Homun HP regen fix (they should regen as if they were sitting (twice as fast)
 		if(bl->type == BL_HOM)
 			rate *= 2;
-
+		
+		if((!battle_config.prevent_logout || DIFF_TICK(gettick(), sd->canlog_tick) > battle_config.prevent_logout) )
+		{
+			rate *= 50;
+		}
 		regen->tick.hp += rate;
 
 		if(regen->tick.hp >= (unsigned int)battle_config.natural_healhp_interval) {
@@ -13177,11 +13190,16 @@ static int status_natural_heal(struct block_list* bl, va_list args)
 			if (status_heal(bl, val, 0, 1) < val)
 				flag &= ~RGN_SHP; // Full.
 		}
+		
 	}
 
 	// Natural SP regen
 	if(flag&RGN_SP) {
 		rate = (int)(natural_heal_diff_tick * (regen->rate.sp/100. * multi));
+		if((!battle_config.prevent_logout || DIFF_TICK(gettick(), sd->canlog_tick) > battle_config.prevent_logout) )
+			{
+			rate *= 50;
+		}
 		// Homun SP regen fix (they should regen as if they were sitting (twice as fast)
 		if(bl->type==BL_HOM)
 			rate *= 2;
